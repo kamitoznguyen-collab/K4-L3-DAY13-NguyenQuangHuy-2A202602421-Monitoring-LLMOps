@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 
+import pytest
+from structlog.contextvars import clear_contextvars, get_contextvars
+
 from app import agent as agent_module
 
 
@@ -58,3 +61,35 @@ def test_generation_receives_model_usage_cost_and_scrubbed_prompt(monkeypatch) -
     assert "student@" not in generation["input"]
     assert "[REDACTED_EMAIL]" in generation["input"]
     assert generation["prompt"] is None  # local fallback không có managed prompt
+
+
+@pytest.mark.parametrize("enabled", [True, False])
+def test_trace_id_is_logged_only_when_tracing_is_enabled(monkeypatch, enabled: bool) -> None:
+    client = GenerationRecordingClient()
+    monkeypatch.setattr(agent_module, "get_langfuse_client", lambda: client)
+    monkeypatch.setattr(agent_module, "tracing_enabled", lambda: enabled)
+
+    @contextmanager
+    def no_propagation(**kwargs):
+        yield
+
+    monkeypatch.setattr(agent_module, "propagate_attributes", no_propagation)
+    clear_contextvars()
+    try:
+        agent_module.LabAgent.run.__wrapped__(
+            agent_module.LabAgent(),
+            user_id="student-01",
+            feature="qa",
+            session_id="session-01",
+            message="Explain traces",
+            correlation_id="req-12345678",
+        )
+        context = get_contextvars()
+    finally:
+        clear_contextvars()
+
+    if enabled:
+        assert context["trace_id"] == "0" * 32
+    else:
+        assert "trace_id" not in context
+        assert context["prompt_source"] == "local"

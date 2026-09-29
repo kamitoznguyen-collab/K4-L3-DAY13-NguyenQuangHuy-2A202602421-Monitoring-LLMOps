@@ -8,7 +8,7 @@
 - **MSSV:** 2A202602421
 - **Lớp:** K4-L3A
 - **Repository URL:** https://github.com/kamitoznguyen-collab/K4-L3-DAY13-NguyenQuangHuy-2A202602421-Monitoring-LLMOps
-- **Commit SHA cuối:** SHA nộp trên LMS là commit mới nhất của nhánh `main` (`git log -1 --format=%H`). Toàn bộ code và evidence nằm ở commit `9a48abaa3d603924a9fc5e222f4cb5ff82058dfe`; các commit sau đó chỉ chỉnh `submission/REPORT.md`.
+- **Commit SHA cuối:** SHA nộp trên LMS là commit mới nhất của nhánh `main` (`git log -1 --format=%H`); commit đó chứa toàn bộ code, evidence và report này.
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4, `latency_threshold_ms` 2000)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602421`
 
@@ -16,11 +16,11 @@
 
 | Evidence | Đường dẫn |
 |---|---|
-| Pytest cuối | [`evidence/01-pytest.txt`](evidence/01-pytest.txt) |
+| Pytest cuối | [`evidence/01-pytest.txt`](evidence/01-pytest.txt) (40 passed) |
 | Log validator | [`evidence/02-log-validator.txt`](evidence/02-log-validator.txt) |
 | Dashboard validator | [`evidence/03-dashboard-validator.txt`](evidence/03-dashboard-validator.txt) |
-| Structured log | [`evidence/04-structured-log.txt`](evidence/04-structured-log.txt) |
-| PII redaction | [`evidence/05-pii-redaction.txt`](evidence/05-pii-redaction.txt) |
+| Structured log | [`evidence/04-structured-log.png`](evidence/04-structured-log.png) · text gốc: [`evidence/04-structured-log.txt`](evidence/04-structured-log.txt) |
+| PII redaction | [`evidence/05-pii-redaction.png`](evidence/05-pii-redaction.png) · text gốc: [`evidence/05-pii-redaction.txt`](evidence/05-pii-redaction.txt) |
 | Trace list | [`evidence/06-trace-list.png`](evidence/06-trace-list.png) — project `day13-k4-l3a-2A202602421`, 217 root / 595 observations · số liệu API: [`evidence/raw/06-trace-summary.txt`](evidence/raw/06-trace-summary.txt) |
 | Trace waterfall | [`evidence/07-trace-waterfall.png`](evidence/07-trace-waterfall.png) — trace `2516a638e164b47953430cb90663f179`: `lab-agent-run` → `retrieval` + `llm-generation` (0.15 s, 209 tokens, $0.002703) · cây span: [`evidence/raw/14-practice-traces.txt`](evidence/raw/14-practice-traces.txt) |
 | Trace metadata | [`evidence/08-trace-metadata.png`](evidence/08-trace-metadata.png) — root `lab-agent-run` của trace incident `086ce802…`: `correlation_id=req-53697358` (khớp log), `prompt_name=day13-chat`, `prompt_label=production`, `prompt_version=1`, `prompt_source=langfuse`, model, feature; 145 tokens, $0.001755 |
@@ -28,11 +28,13 @@
 | Prompt rollback | [`evidence/10-prompt-rollback-before.png`](evidence/10-prompt-rollback-before.png) (sau promote: `production` → v2) · [`evidence/10-prompt-rollback-after.png`](evidence/10-prompt-rollback-after.png) (sau rollback: `production` → v1) · [`evidence/raw/10-prompt-promote.txt`](evidence/raw/10-prompt-promote.txt), [`evidence/raw/10-prompt-rollback.txt`](evidence/raw/10-prompt-rollback.txt) |
 | Dashboard runtime | [`evidence/11-dashboard-overview.png`](evidence/11-dashboard-overview.png) (HTML gốc: [`evidence/11-dashboard.html`](evidence/11-dashboard.html)) |
 | Incident metric | [`evidence/12-incident-metric.png`](evidence/12-incident-metric.png) (dashboard) · [`evidence/12-incident-metric.txt`](evidence/12-incident-metric.txt) (so sánh trước/trong incident) |
-| Incident log | [`evidence/13-incident-log.txt`](evidence/13-incident-log.txt) · lệnh chạy: [`raw/20-challenge-run.txt`](evidence/raw/20-challenge-run.txt) |
+| Incident log | [`evidence/13-incident-log.png`](evidence/13-incident-log.png) · text gốc: [`evidence/13-incident-log.txt`](evidence/13-incident-log.txt) · lệnh chạy: [`raw/20-challenge-run.txt`](evidence/raw/20-challenge-run.txt) |
 | Incident trace | [`evidence/14-incident-trace.png`](evidence/14-incident-trace.png) — trace `086ce802f973e9cf2d8bb481f7f426d5`: root 2.65 s, **`retrieval` 2.50 s**, generation 0.15 s (TTFT 0.05 s, 145 tokens, $0.001755, prompt `day13-chat` v1) · so sánh với trace trước incident: [`evidence/14-incident-trace.txt`](evidence/14-incident-trace.txt) |
 | Practice (3 scenario) | [`raw/12-practice-*.txt`](evidence/raw/), [`raw/14-practice-traces.txt`](evidence/raw/14-practice-traces.txt) |
 
 Output baseline (trước khi sửa) nằm ở `evidence/raw/00-baseline-*.txt`.
+
+Ảnh `04`, `05`, `13` được dựng từ đúng file `.txt` cùng tên (output thật của lệnh/log) thành PNG để dễ đọc; thanh tiêu đề ảnh ghi rõ nguồn.
 
 ## 3. Kết quả kỹ thuật
 
@@ -40,7 +42,7 @@ Output baseline (trước khi sửa) nằm ở `evidence/raw/00-baseline-*.txt`.
 |---|---|---|---|
 | `validate_logs.py` | 30/100 | **100/100** | Baseline: 40/43 dòng thiếu `correlation_id` (giá trị `MISSING`), 40 dòng thiếu enrichment, 0 correlation ID hợp lệ. PII đã "pass" sẵn chỉ vì `summarize_text` scrub `message_preview`; processor `scrub_event` thật sự chưa được đăng ký |
 | `validate_dashboard.py` | 6/6 | **6/6** | Contract không đổi |
-| `pytest` | 22 passed | **38 passed** | Thêm 16 test: correlation ID, enrichment, PII (CCCD/thẻ/hộ chiếu/nested), child observations, dashboard, alert rules, ghi log đồng thời |
+| `pytest` | 22 passed | **40 passed** | Thêm 18 test: correlation ID, enrichment, PII (CCCD/thẻ/hộ chiếu/nested), child observations, chỉ ghi `trace_id` khi tracing bật, dashboard, alert rules, ghi log đồng thời |
 | Số traces hợp lệ | 0 (chỉ root span, không có child) | **217 traces** (595 observations: 217 agent, 194 retriever, 184 generation) | 204/217 root có `correlation_id` dạng `req-…`; 13 trace còn lại tạo lúc chạy baseline, khi ID vẫn là `MISSING` |
 | Số PII leak | Log: 0 (trên file log baseline) | **Log: 0 · Trace: 0** | Quét cả 5 pattern trên toàn bộ input/output/metadata của 595 observations; có 142 marker `[REDACTED_…]` |
 | Latency P95 / TTFT P95 | P95 162 ms (server) nhưng client thấy ~780 ms / TTFT 50 ms | Lúc warm: P50 152 ms, P95 ~160 ms (P95 890 ms nếu tính cold start) / TTFT 50 ms | Client latency ở concurrency 5 giảm từ ~780 ms xuống ~170 ms sau khi sửa lỗi chặn event loop (xem mục 8) |
@@ -85,7 +87,7 @@ Output baseline (trước khi sửa) nằm ở `evidence/raw/00-baseline-*.txt`.
 
   Ví dụ trace bình thường `ca723bd845753441999bccf9e1c4254f`: root 152 ms, retrieval 1 ms, generation 151 ms, 28 in / 124 out tokens, $0.001944.
 - **Cách nối trace với log:** hai chiều.
-  - Log → trace: mỗi dòng log API có `trace_id`. Lấy bằng `python scripts/find_requests.py --slowest 5` rồi mở `https://cloud.langfuse.com/project/<id>/traces/<trace_id>`.
+  - Log → trace: khi tracing bật, mỗi dòng log API có `trace_id` (khi thiếu key Langfuse thì không ghi, để log không trỏ tới trace không tồn tại). Lấy bằng `python scripts/find_requests.py --slowest 5` rồi mở `https://cloud.langfuse.com/project/<id>/traces/<trace_id>`.
   - Trace → log: metadata của trace có `correlation_id`; chạy `python scripts/find_requests.py --id <correlation_id>`.
 - **Prompt name:** `day13-chat` (text prompt, giữ 3 biến `{{feature}}`, `{{docs}}`, `{{message}}`), quản lý bằng [scripts/prompt_versions.py](../scripts/prompt_versions.py).
 - **Version/label baseline:** v1 — labels `baseline`, `production` (template mặc định của lab).

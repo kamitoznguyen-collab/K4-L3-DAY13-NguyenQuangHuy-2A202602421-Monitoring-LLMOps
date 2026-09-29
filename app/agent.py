@@ -66,7 +66,10 @@ class LabAgent:
         ):
             started = time.perf_counter()
             # Ghi trace_id vào log context để nối log ↔ trace, kể cả khi request lỗi.
-            trace_id = _call_optional(langfuse_client, "get_current_trace_id")
+            # Khi thiếu key Langfuse, OpenTelemetry vẫn sinh ID nhưng trace không được
+            # gửi đi, nên chỉ ghi khi tracing bật để log không trỏ tới trace không tồn tại.
+            tracing_on = tracing_enabled()
+            trace_id = _call_optional(langfuse_client, "get_current_trace_id") if tracing_on else None
             if trace_id:
                 bind_contextvars(trace_id=trace_id)
             docs = self._retrieve(message)
@@ -75,7 +78,7 @@ class LabAgent:
                 feature=feature,
                 docs=docs,
                 message=message,
-                enabled=tracing_enabled(),
+                enabled=tracing_on,
             )
             bind_contextvars(prompt_version=prompt.version, prompt_source=prompt.source)
             langfuse_client.update_current_span(
