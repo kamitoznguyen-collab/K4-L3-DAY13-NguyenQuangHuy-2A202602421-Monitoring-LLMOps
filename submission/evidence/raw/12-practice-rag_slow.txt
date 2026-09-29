@@ -1,0 +1,20 @@
+=== 2026-09-29T08:32:37Z rag_slow ENABLE
+200 {'ok': True, 'incidents': {'rag_slow': True, 'tool_fail': False, 'cost_spike': False}}
+$ python scripts/load_test.py --concurrency 5
+[200] req-c530265e | qa | 2679.3ms
+[200] req-55db4374 | summary | 2691.0ms
+[200] req-f49a8bd2 | qa | 2691.4ms
+[200] req-726d4e84 | qa | 2691.3ms
+[200] req-ca6bdbcd | qa | 2695.0ms
+[200] req-96cc5863 | summary | 2672.0ms
+[200] req-b52e6ca3 | qa | 2660.0ms
+[200] req-3c2d3895 | qa | 2666.9ms
+[200] req-569dbb05 | qa | 2669.4ms
+[200] req-7eb25261 | qa | 2668.8ms
+=== 2026-09-29T08:32:44Z rag_slow DISABLE
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+$ python scripts/find_requests.py --slowest 3 --minutes 5
+Window: 2026-09-29 08:27:44 → 08:32:44 UTC | 246 events
+ts=2026-09-29T08:32:41.330045Z | event=response_sent | correlation_id=req-f49a8bd2 | trace_id=fcba55e043100b416665ebf5e5a06e3e | feature=qa | prompt_version=1 | latency_ms=2660 | ttft_ms=50 | tokens_out=90 | cost_usd=0.001467 | tool_success=True
+ts=2026-09-29T08:32:41.331230Z | event=response_sent | correlation_id=req-726d4e84 | trace_id=f3010ebc7b5f7939053e7349d09a02e7 | feature=qa | prompt_version=1 | latency_ms=2660 | ttft_ms=50 | tokens_out=147 | cost_usd=0.002304 | tool_success=True
+ts=2026-09-29T08:32:41.332317Z | event=response_sent | correlation_id=req-ca6bdbcd | trace_id=621ecad6e8020d35eb66d9c4e92a035b | feature=qa | prompt_version=1 | latency_ms=2660 | ttft_ms=50 | tokens_out=141 | cost_usd=0.002211 | tool_success=True

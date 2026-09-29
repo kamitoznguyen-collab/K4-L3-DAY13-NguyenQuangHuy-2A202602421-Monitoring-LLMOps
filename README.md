@@ -155,6 +155,16 @@ git log -1 --oneline
 - [ ] `submission/REPORT.md` đã đủ; mọi ảnh dùng đường dẫn tương đối và mở được.
 - [ ] Bạn demo và giải thích được luồng Metrics → Logs → Traces → Root cause.
 
+## Công cụ bổ sung trong bài làm
+
+| Lệnh | Mục đích |
+|---|---|
+| `python scripts/build_dashboard.py [--watch]` | Dựng dashboard 6 panel từ `data/logs.jsonl` theo `config/dashboard.yaml` → `data/dashboard.html` (60 phút, refresh 30 s, threshold) |
+| `python scripts/find_requests.py --slowest 5` / `--failed` / `--costliest 5` / `--id <cid>` | Bước **Logs**: lấy `correlation_id` + `trace_id` của request bất thường |
+| `python scripts/prompt_versions.py setup\|status\|promote\|rollback` | Tạo prompt v1/v2 trên Langfuse và chuyển label `production` |
+
+Mỗi dòng log API có `correlation_id`, `trace_id` (Langfuse) và `prompt_version`, nên đi từ log sang trace chỉ cần copy `trace_id`.
+
 ## Tên repo bài nộp
 
 Repo này là **repo đề bài**, nên tên chính thức là `K4-L3A-Day13-Monitoring-LLMOps` (mẫu `K4-L3A-TenBai`). Repo bài nộp cá nhân dùng mẫu:

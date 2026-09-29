@@ -1,0 +1,10 @@
+   generation: model=claude-sonnet-4-5 promptName=day13-chat promptVersion=1 usage={'input': 27, 'output': 114, 'total': 141} cost={'input': 8.1e-05, 'output': 0.00171, 'total': 0.001790999999}
+req-prompt8000 trace=4a1ac073da2f97581a1a7f29ef914672 root: prompt_name=day13-chat label=production version=1 source=langfuse correlation_id=req-prompt8000
+   generation: model=claude-sonnet-4-5 promptName=day13-chat promptVersion=2 usage={'input': 37, 'output': 153, 'total': 190} cost={'input': 0.000111, 'output': 0.002295, 'total': 0.002406}
+req-prompt8001 trace=c944f40ca5f1376e897fcca939436ea7 root: prompt_name=day13-chat label=candidate version=2 source=langfuse correlation_id=req-prompt8001
+   generation: model=claude-sonnet-4-5 promptName=day13-chat promptVersion=1 usage={'input': 27, 'output': 157, 'total': 184} cost={'input': 8.1e-05, 'output': 0.002355, 'total': 0.002436}
+req-pv-v1 trace=7fd398b6a02a96f3eb4c4ea5f8351086 root: prompt_name=day13-chat label=production version=1 source=langfuse correlation_id=req-pv-v1
+   generation: model=claude-sonnet-4-5 promptName=day13-chat promptVersion=2 usage={'input': 37, 'output': 82, 'total': 119} cost={'input': 0.000111, 'output': 0.00123, 'total': 0.001341}
+req-pv-promoted trace=9dad2c4a71804262df06b111ae368944 root: prompt_name=day13-chat label=production version=2 source=langfuse correlation_id=req-pv-promoted
+   generation: model=claude-sonnet-4-5 promptName=day13-chat promptVersion=1 usage={'input': 27, 'output': 147, 'total': 174} cost={'input': 8.1e-05, 'output': 0.002205, 'total': 0.002286}
+req-pv-rolledback trace=18c18c3e30b4d27e225b7d259bcf500c root: prompt_name=day13-chat label=production version=1 source=langfuse correlation_id=req-pv-rolledback

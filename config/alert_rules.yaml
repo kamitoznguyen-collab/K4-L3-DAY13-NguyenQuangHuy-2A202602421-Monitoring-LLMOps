@@ -1,25 +1,34 @@
+# Ba alert symptom-based: đo triệu chứng người dùng/chi phí nhìn thấy được trong
+# data/logs.jsonl, không dựa trên tên implementation nội bộ (vector store, model...).
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: ChatLatencyP95High
+    severity: P2
+    # Cảnh báo sớm ở ~2/3 ngưỡng SLO (3000 ms) để phản ứng trước khi đốt error budget.
+    condition: 'percentile(latency_ms, 95) over event == "response_sent" > 2000'
+    duration: 5m
     type: symptom-based
+    slo: fast_successful_requests
     channel: slack
-    owner: TODO
+    slack_channel: "#day13-k4-l3a-alerts"
+    owner: nguyenquanghuy
     runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: ChatErrorRateHigh
+    severity: P1
+    condition: 'count(event == "request_failed") / count(event == "request_received") * 100 > 2'
+    duration: 5m
     type: symptom-based
+    slo: fast_successful_requests
     channel: slack
-    owner: TODO
+    slack_channel: "#day13-k4-l3a-alerts"
+    owner: nguyenquanghuy
     runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: CostPerRequestSpike
+    severity: P3
+    condition: 'avg(cost_usd) over event == "response_sent" > 0.004'
+    duration: 15m
     type: symptom-based
+    guardrail: daily_cost_usd_max
     channel: slack
-    owner: TODO
+    slack_channel: "#day13-k4-l3a-alerts"
+    owner: nguyenquanghuy
     runbook: docs/alerts.md#alert-3

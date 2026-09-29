@@ -1,0 +1,9 @@
+Langfuse project observations hôm nay: 595 | traces (root lab-agent-run): 217
+theo loại: {'GENERATION': 184, 'RETRIEVER': 194, 'AGENT': 217}
+root có correlation_id: 204/217
+PII email        matches in trace input/output/metadata: 0
+PII credit_card  matches in trace input/output/metadata: 0
+PII cccd         matches in trace input/output/metadata: 0
+PII phone_vn     matches in trace input/output/metadata: 0
+PII passport     matches in trace input/output/metadata: 0
+REDACTED markers in traces: 142

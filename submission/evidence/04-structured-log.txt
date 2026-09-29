@@ -1,0 +1,42 @@
+# 2 dòng log thật (request_received + response_sent) của cùng correlation_id, trích từ data/logs.jsonl
+{
+  "service": "api",
+  "payload": {
+    "message_preview": "How should alerts be designed?"
+  },
+  "event": "request_received",
+  "user_id_hash": "105a9cef3903",
+  "correlation_id": "req-faf39717",
+  "env": "dev",
+  "model": "claude-sonnet-4-5",
+  "session_id": "s10",
+  "feature": "qa",
+  "level": "info",
+  "ts": "2026-09-29T08:29:40.342787Z"
+}
+{
+  "service": "api",
+  "latency_ms": 152,
+  "ttft_ms": 50,
+  "tokens_in": 28,
+  "tokens_out": 124,
+  "cost_usd": 0.001944,
+  "quality_score": 0.9,
+  "tool_name": "retrieval",
+  "tool_success": true,
+  "payload": {
+    "answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."
+  },
+  "event": "response_sent",
+  "user_id_hash": "105a9cef3903",
+  "correlation_id": "req-faf39717",
+  "prompt_source": "langfuse",
+  "env": "dev",
+  "model": "claude-sonnet-4-5",
+  "session_id": "s10",
+  "trace_id": "ca723bd845753441999bccf9e1c4254f",
+  "prompt_version": "1",
+  "feature": "qa",
+  "level": "info",
+  "ts": "2026-09-29T08:29:40.496055Z"
+}

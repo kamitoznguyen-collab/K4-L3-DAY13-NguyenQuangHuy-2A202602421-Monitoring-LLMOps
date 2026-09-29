@@ -1,0 +1,11 @@
+=== 2026-09-29T10:11:25Z INJECT
+$ python scripts/inject_incident.py
+200 {'ok': True, 'incidents': {'rag_slow': True, 'tool_fail': False, 'cost_spike': False}}
+$ python scripts/load_test.py --challenge --concurrency 5
+Challenge: day13-k4-l3a-monitoring-llmops-v1 | Cohort: K4
+[200] req-53697358 | monitoring | 2672.2ms
+[200] req-f7438fd4 | monitoring | 2675.8ms
+[200] req-7e871fc9 | monitoring | 2681.3ms
+[200] req-ff313133 | monitoring | 2677.7ms
+[200] req-2e6413a7 | monitoring | 2680.4ms
+=== 2026-09-29T10:11:29Z load finished (incident vẫn bật, chưa disable)

@@ -1,0 +1,10 @@
+=== 2026-09-29T10:12:39Z FIX: disable incident
+$ python scripts/inject_incident.py --disable
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+$ python scripts/load_test.py --challenge --concurrency 5   # verify recovery
+Challenge: day13-k4-l3a-monitoring-llmops-v1 | Cohort: K4
+[200] req-e468c13e | monitoring | 168.2ms
+[200] req-b38a9b85 | monitoring | 173.1ms
+[200] req-c7265e7f | monitoring | 178.0ms
+[200] req-c4d9d32b | monitoring | 180.6ms
+[200] req-07a5c18c | monitoring | 178.3ms

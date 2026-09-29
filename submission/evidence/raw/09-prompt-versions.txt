@@ -1,0 +1,5 @@
+$ python scripts/prompt_versions.py status
+day13-chat label=production version=1
+day13-chat label=baseline   version=1
+day13-chat label=candidate  version=2
+day13-chat label=latest     version=2

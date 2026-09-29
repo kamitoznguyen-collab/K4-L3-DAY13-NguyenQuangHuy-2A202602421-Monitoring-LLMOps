@@ -1,0 +1,13 @@
+# Traces — Langfuse project cá nhân, đọc qua GET /api/public/v2/observations
+[pre-incident:req-15760395] trace_id=af07f7dc1c5cd84c363b1136955b605d
+  AGENT      lab-agent-run       154 ms level=DEFAULT  correlation_id=req-15760395 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval             0 ms level=DEFAULT 
+  └─ GENERATION llm-generation      152 ms level=DEFAULT  model=None usage={'input': 36, 'output': 107, 'total': 143} cost_total=0.001713
+[incident:req-53697358] trace_id=086ce802f973e9cf2d8bb481f7f426d5
+  AGENT      lab-agent-run      2653 ms level=DEFAULT  correlation_id=req-53697358 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval          2501 ms level=DEFAULT 
+  └─ GENERATION llm-generation      151 ms level=DEFAULT  model=None usage={'input': 35, 'output': 110, 'total': 145} cost_total=0.001755
+[incident:req-f7438fd4] trace_id=17fece7a1100cefb45a89cfbe9eb153f
+  AGENT      lab-agent-run      2654 ms level=DEFAULT  correlation_id=req-f7438fd4 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval          2502 ms level=DEFAULT 
+  └─ GENERATION llm-generation      152 ms level=DEFAULT  model=None usage={'input': 35, 'output': 116, 'total': 151} cost_total=0.001845

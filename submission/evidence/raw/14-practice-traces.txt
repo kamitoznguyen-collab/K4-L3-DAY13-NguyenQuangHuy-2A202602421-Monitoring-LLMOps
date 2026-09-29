@@ -1,0 +1,15 @@
+[baseline] trace_id=ca723bd845753441999bccf9e1c4254f
+  AGENT      lab-agent-run       152 ms level=DEFAULT  correlation_id=req-faf39717 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval             1 ms level=DEFAULT 
+  └─ GENERATION llm-generation      151 ms level=DEFAULT  model=None usage={'input': 28, 'output': 124, 'total': 152} cost_total=0.001944
+[rag_slow] trace_id=fcba55e043100b416665ebf5e5a06e3e
+  AGENT      lab-agent-run      2661 ms level=DEFAULT  correlation_id=req-f49a8bd2 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval          2506 ms level=DEFAULT 
+  └─ GENERATION llm-generation      153 ms level=DEFAULT  model=None usage={'input': 39, 'output': 90, 'total': 129} cost_total=0.001467
+[tool_fail] trace_id=9a061ef70992ded115f3350835c9c081
+  AGENT      lab-agent-run         1 ms level=ERROR status=Vector store timeout correlation_id=req-abcca514 prompt=None@vNone(None)
+  └─ RETRIEVER  retrieval             0 ms level=ERROR status=Vector store timeout
+[cost_spike] trace_id=e43069760dbfcca6b46cc6467096337a
+  AGENT      lab-agent-run       152 ms level=DEFAULT  correlation_id=req-77e9d989 prompt=day13-chat@v1(production)
+  └─ RETRIEVER  retrieval             0 ms level=DEFAULT 
+  └─ GENERATION llm-generation      151 ms level=DEFAULT  model=None usage={'input': 27, 'output': 688, 'total': 715} cost_total=0.010400999999

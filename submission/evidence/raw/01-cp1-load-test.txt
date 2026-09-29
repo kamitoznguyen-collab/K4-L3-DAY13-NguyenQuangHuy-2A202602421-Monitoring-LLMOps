@@ -1,0 +1,11 @@
+$ python scripts/load_test.py
+[200] req-c28ae415 | qa | 1514.5ms
+[200] req-d4bcf23b | qa | 538.8ms
+[200] req-c9c44e41 | summary | 722.7ms
+[200] req-f37f63e8 | qa | 852.5ms
+[200] req-ad4da5c1 | qa | 874.3ms
+[200] req-707adf75 | summary | 512.1ms
+[200] req-eae899f8 | qa | 425.9ms
+[200] req-0042151f | qa | 526.7ms
+[200] req-ff6ca4f5 | qa | 550.4ms
+[200] req-72337cae | qa | 539.7ms

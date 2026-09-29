@@ -46,11 +46,18 @@ async def metrics() -> dict:
     return snapshot()
 
 
+# `def` (không async): agent.run là code đồng bộ/blocking nên FastAPI chạy nó trong
+# threadpool, tránh chặn event loop khiến các request đồng thời phải xếp hàng.
 @app.post("/chat", response_model=ChatResponse)
-async def chat(request: Request, body: ChatRequest) -> ChatResponse:
-    # TODO: Enrich logs with request context (user_id_hash, session_id, feature, model, env)
-    # bind_contextvars(...)
-    
+def chat(request: Request, body: ChatRequest) -> ChatResponse:
+    # Metadata chung của cả request: bind trước log đầu tiên để mọi log sau dùng lại.
+    bind_contextvars(
+        user_id_hash=hash_user_id(body.user_id),
+        session_id=body.session_id,
+        feature=body.feature,
+        model=agent.model,
+        env=os.getenv("APP_ENV", "dev"),
+    )
     log.info(
         "request_received",
         service="api",

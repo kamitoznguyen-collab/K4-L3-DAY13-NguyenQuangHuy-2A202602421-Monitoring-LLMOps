@@ -1,0 +1,22 @@
+=== 2026-09-29T08:33:41Z tool_fail ENABLE
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': True, 'cost_spike': False}}
+$ python scripts/load_test.py --concurrency 5
+[500] None | qa | 27.7ms
+[500] None | qa | 24.9ms
+[500] None | summary | 28.2ms
+[500] None | qa | 28.1ms
+[500] None | qa | 30.9ms
+[500] None | summary | 13.7ms
+[500] None | qa | 19.7ms
+[500] None | qa | 17.4ms
+[500] None | qa | 17.0ms
+[500] None | qa | 19.1ms
+=== 2026-09-29T08:33:42Z tool_fail DISABLE
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+$ python scripts/find_requests.py --failed --minutes 2
+Window: 2026-09-29 08:31:43 → 08:33:43 UTC | 40 events
+ts=2026-09-29T08:33:42.500628Z | event=request_failed | correlation_id=req-abcca514 | trace_id=9a061ef70992ded115f3350835c9c081 | feature=qa | error_type=RuntimeError | tool_success=False
+ts=2026-09-29T08:33:42.502668Z | event=request_failed | correlation_id=req-0b1c2f0b | trace_id=893cae9ace76b33f4a9b55478e736342 | feature=qa | error_type=RuntimeError | tool_success=False
+ts=2026-09-29T08:33:42.504550Z | event=request_failed | correlation_id=req-73254cda | trace_id=d3166b59a092eee3f189d01b7d7d3236 | feature=qa | error_type=RuntimeError | tool_success=False
+ts=2026-09-29T08:33:42.505788Z | event=request_failed | correlation_id=req-4f439c38 | trace_id=f057d89ca60984e0543f34cd576e1c2f | feature=summary | error_type=RuntimeError | tool_success=False
+ts=2026-09-29T08:33:42.508275Z | event=request_failed | correlation_id=req-ddee28ad | trace_id=49a077da5c2687103e18167a929965f9 | feature=qa | error_type=RuntimeError | tool_success=False

@@ -1,0 +1,8 @@
+=== 2026-09-29T10:10:19Z PRE-INCIDENT baseline (cùng challenge queries, chưa inject)
+$ python scripts/load_test.py --challenge --concurrency 5
+Challenge: day13-k4-l3a-monitoring-llmops-v1 | Cohort: K4
+[200] req-15760395 | monitoring | 183.1ms
+[200] req-30cf3b9a | monitoring | 184.2ms
+[200] req-b85d55db | monitoring | 185.6ms
+[200] req-128b6ccd | monitoring | 187.9ms
+[200] req-9f6a18d7 | monitoring | 192.7ms

@@ -1,0 +1,12 @@
+$ python scripts/find_requests.py --slowest 5 --minutes 5
+Window: 2026-09-29 10:06:47 → 10:11:47 UTC | 42 events
+ts=2026-09-29T10:11:29.346636Z | event=response_sent | correlation_id=req-f7438fd4 | trace_id=17fece7a1100cefb45a89cfbe9eb153f | feature=monitoring | prompt_version=1 | latency_ms=2654 | ttft_ms=50 | tokens_out=116 | cost_usd=0.001845 | tool_success=True
+ts=2026-09-29T10:11:29.347744Z | event=response_sent | correlation_id=req-ff313133 | trace_id=947fa6373e8ce163f1fa7ffa09a37bff | feature=monitoring | prompt_version=1 | latency_ms=2654 | ttft_ms=50 | tokens_out=108 | cost_usd=0.001722 | tool_success=True
+ts=2026-09-29T10:11:29.348221Z | event=response_sent | correlation_id=req-7e871fc9 | trace_id=8cb9cccba306f96475a6ae22f1645435 | feature=monitoring | prompt_version=1 | latency_ms=2653 | ttft_ms=50 | tokens_out=118 | cost_usd=0.001878 | tool_success=True
+ts=2026-09-29T10:11:29.350360Z | event=response_sent | correlation_id=req-2e6413a7 | trace_id=733cbdd182ebde05dda905590b00f7e7 | feature=monitoring | prompt_version=1 | latency_ms=2653 | ttft_ms=50 | tokens_out=124 | cost_usd=0.001965 | tool_success=True
+ts=2026-09-29T10:11:29.343359Z | event=response_sent | correlation_id=req-53697358 | trace_id=086ce802f973e9cf2d8bb481f7f426d5 | feature=monitoring | prompt_version=1 | latency_ms=2652 | ttft_ms=50 | tokens_out=110 | cost_usd=0.001755 | tool_success=True
+
+$ python scripts/find_requests.py --id req-53697358
+Window: 2026-09-29 09:11:47 → 10:11:47 UTC | 42 events
+ts=2026-09-29T10:11:26.687804Z | event=request_received | correlation_id=req-53697358 | feature=monitoring
+ts=2026-09-29T10:11:29.343359Z | event=response_sent | correlation_id=req-53697358 | trace_id=086ce802f973e9cf2d8bb481f7f426d5 | feature=monitoring | prompt_version=1 | latency_ms=2652 | ttft_ms=50 | tokens_out=110 | cost_usd=0.001755 | tool_success=True

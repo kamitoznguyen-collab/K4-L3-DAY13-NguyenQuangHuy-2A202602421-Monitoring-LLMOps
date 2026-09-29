@@ -1,0 +1,6 @@
+$ python scripts/prompt_versions.py promote
+production -> v2 (candidate)
+day13-chat label=production version=2
+day13-chat label=baseline   version=1
+day13-chat label=candidate  version=2
+day13-chat label=latest     version=2

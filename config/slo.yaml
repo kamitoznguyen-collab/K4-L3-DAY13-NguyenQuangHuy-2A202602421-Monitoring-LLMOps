@@ -7,7 +7,26 @@ primary_slo:
     total_event: 'event == "request_received"'
   target_percent: 99.5
   error_budget_percent: 0.5
-  note: Học viên phải giải thích hoặc điều chỉnh ngưỡng bằng baseline của mình.
+  baseline:
+    measured_at: 2026-09-29
+    workload: 'scripts/load_test.py --concurrency 5 (3 vòng, 30 request, sau khi đã fix threadpool)'
+    latency_p50_ms: 152
+    latency_p95_ms: 890   # do cold-start fetch prompt Langfuse; lúc warm P95 ~ 160 ms
+    latency_p99_ms: 942
+    ttft_p95_ms: 50
+    error_rate_pct: 0
+  rationale: >
+    Giữ ngưỡng 3000 ms đúng với threshold của dashboard contract. Baseline P99 (cả cold start)
+    chỉ ~0.94 s nên còn dư ~3x cho độ trễ biến động của LLM thật; 3 s cũng là mức người dùng
+    chat còn chấp nhận được khi chưa streaming. Target 99.5% thay vì 99.9% vì app phụ thuộc
+    hai dịch vụ ngoài (Langfuse prompt API, vector store) không có SLA riêng.
+  error_budget:
+    formula: '(1 - 0.995) * total_event trong 28 ngày'
+    per_1000_requests: 5
+    example: '10 req/phút → 403,200 req/28 ngày → được phép 2,016 request lỗi hoặc > 3 s'
+    policy: >
+      Tiêu > 50% budget trong 7 ngày: dừng rollout prompt/model mới, ưu tiên fix độ tin cậy.
+      Hết budget: chỉ deploy bản fix và rollback.
 guardrails:
   error_rate_pct_max: 2
   daily_cost_usd_max: 2.5

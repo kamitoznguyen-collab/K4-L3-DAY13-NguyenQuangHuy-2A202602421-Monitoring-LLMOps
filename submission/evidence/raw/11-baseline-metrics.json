@@ -1,0 +1,1 @@
+{"traffic":50,"latency_p50":152.0,"latency_p95":890.0,"latency_p99":942.0,"ttft_p95":50.0,"avg_cost_usd":0.0019,"total_cost_usd":0.0968,"tokens_in_total":1690,"tokens_out_total":6113,"error_breakdown":{},"quality_avg":0.88}

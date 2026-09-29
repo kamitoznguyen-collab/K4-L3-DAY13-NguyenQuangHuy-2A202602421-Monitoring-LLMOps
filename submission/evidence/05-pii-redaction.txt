@@ -1,0 +1,9 @@
+# Input gửi lên (data/sample_queries.jsonl) chứa PII giả; log thực tế đã redact trước khi ghi file:
+s01 req-49013606 -> What is your refund policy? My email is [REDACTED_EMAIL]
+s05 req-10873b94 -> Here is my phone [REDACTED_PHONE_VN], what should be logged?
+s09 req-bf3e8216 -> What is the policy for PII and credit card [REDACTED_CREDIT_CARD]?
+
+# Đếm số lần PII mẫu (lấy từ sample_queries, không in giá trị) xuất hiện nguyên văn trong data/logs.jsonl:
+u01 email        occurrences_in_log=0
+u05 phone_vn     occurrences_in_log=0
+u09 credit_card  occurrences_in_log=0
