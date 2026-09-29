@@ -3,7 +3,12 @@ s01 req-49013606 -> What is your refund policy? My email is [REDACTED_EMAIL]
 s05 req-10873b94 -> Here is my phone [REDACTED_PHONE_VN], what should be logged?
 s09 req-bf3e8216 -> What is the policy for PII and credit card [REDACTED_CREDIT_CARD]?
 
-# Đếm số lần PII mẫu (lấy từ sample_queries, không in giá trị) xuất hiện nguyên văn trong data/logs.jsonl:
+# Bổ sung CCCD (sample_queries không có CCCD): POST /chat với CCCD giả 12 chữ số lúc 2026-09-29 15:54:56 UTC:
+s13 req-acb410bc -> My CCCD is [REDACTED_CCCD], can you check my account?
+   trace_id=b782410d1a4c3967193bc0058d9eb454 (lab-agent-run, retrieval, llm-generation)
+
+# Đếm số lần PII mẫu (lấy từ sample_queries và request CCCD ở trên, không in giá trị) xuất hiện nguyên văn trong data/logs.jsonl:
 u01 email        occurrences_in_log=0
 u05 phone_vn     occurrences_in_log=0
 u09 credit_card  occurrences_in_log=0
+u13 cccd         occurrences_in_log=0  occurrences_in_langfuse_trace=0  (REDACTED_CCCD markers trong trace: 3)

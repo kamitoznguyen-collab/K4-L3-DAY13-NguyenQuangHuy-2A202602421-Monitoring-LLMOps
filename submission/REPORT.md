@@ -70,7 +70,7 @@ Output baseline (trước khi sửa) nằm ở `evidence/raw/00-baseline-*.txt`.
   - Trace Langfuse chỉ nhận `scrub_text(prompt)` và `summarize_text(output)`; root span tắt `capture_input/output`.
 - **Cách kiểm chứng kết quả:**
   - `validate_logs.py` đạt 100/100.
-  - [`evidence/05-pii-redaction.txt`](evidence/05-pii-redaction.txt): 3 câu hỏi mẫu chứa email, điện thoại, số thẻ đều đã được redact; số lần PII mẫu xuất hiện nguyên văn trong `data/logs.jsonl` là 0.
+  - [`evidence/05-pii-redaction.txt`](evidence/05-pii-redaction.txt): cả 4 loại PII bắt buộc (email, điện thoại, số thẻ từ `sample_queries`, cộng một request CCCD giả `req-acb410bc`) đều đã được redact; số lần PII mẫu xuất hiện nguyên văn trong `data/logs.jsonl` là 0, và trace Langfuse của request CCCD (`b782410d…`) cũng có 0 lần.
   - Quét Langfuse bằng API: 0 match.
   - Có test `tests/test_correlation_id.py::test_logs_are_enriched_and_free_of_raw_pii`.
 
