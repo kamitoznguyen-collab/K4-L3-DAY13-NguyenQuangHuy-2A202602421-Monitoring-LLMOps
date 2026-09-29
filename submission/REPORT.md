@@ -1,8 +1,6 @@
 # Báo cáo cá nhân — K4-L3A Day 13 Monitoring & LLMOps
 
 > Mỗi học viên hoàn thiện một file duy nhất này. Khi dẫn evidence, dùng đường dẫn tương đối, ví dụ `evidence/07-trace-waterfall.png`.
->
-> Các mục có đánh dấu **[CẦN BỔ SUNG]** là phần chỉ học viên tự làm được (chụp ảnh Langfuse UI đang đăng nhập, đổi tên project Langfuse, commit SHA cuối).
 
 ## 1. Thông tin học viên
 
@@ -23,15 +21,15 @@
 | Dashboard validator | [`evidence/03-dashboard-validator.txt`](evidence/03-dashboard-validator.txt) |
 | Structured log | [`evidence/04-structured-log.txt`](evidence/04-structured-log.txt) |
 | PII redaction | [`evidence/05-pii-redaction.txt`](evidence/05-pii-redaction.txt) |
-| Trace list | `evidence/06-trace-list.png` **[CẦN BỔ SUNG ảnh]** · số liệu API: [`evidence/raw/06-trace-summary.txt`](evidence/raw/06-trace-summary.txt) |
-| Trace waterfall | `evidence/07-trace-waterfall.png` **[CẦN BỔ SUNG ảnh]** · cây span: [`evidence/raw/14-practice-traces.txt`](evidence/raw/14-practice-traces.txt) |
-| Trace metadata | `evidence/08-trace-metadata.png` **[CẦN BỔ SUNG ảnh]** |
-| Prompt versions | `evidence/09-prompt-versions.png` **[CẦN BỔ SUNG ảnh]** · [`evidence/raw/09-prompt-versions.txt`](evidence/raw/09-prompt-versions.txt), [`evidence/raw/09-prompt-trace-ids.txt`](evidence/raw/09-prompt-trace-ids.txt) |
-| Prompt rollback | `evidence/10-prompt-rollback.png` **[CẦN BỔ SUNG ảnh]** · [`evidence/raw/10-prompt-promote.txt`](evidence/raw/10-prompt-promote.txt), [`evidence/raw/10-prompt-rollback.txt`](evidence/raw/10-prompt-rollback.txt) |
+| Trace list | [`evidence/06-trace-list.png`](evidence/06-trace-list.png) — project `day13-k4-l3a-2A202602421`, 217 root / 595 observations · số liệu API: [`evidence/raw/06-trace-summary.txt`](evidence/raw/06-trace-summary.txt) |
+| Trace waterfall | [`evidence/07-trace-waterfall.png`](evidence/07-trace-waterfall.png) — trace `2516a638e164b47953430cb90663f179`: `lab-agent-run` → `retrieval` + `llm-generation` (0.15 s, 209 tokens, $0.002703) · cây span: [`evidence/raw/14-practice-traces.txt`](evidence/raw/14-practice-traces.txt) |
+| Trace metadata | [`evidence/08-trace-metadata.png`](evidence/08-trace-metadata.png) — root `lab-agent-run` của trace incident `086ce802…`: `correlation_id=req-53697358` (khớp log), `prompt_name=day13-chat`, `prompt_label=production`, `prompt_version=1`, `prompt_source=langfuse`, model, feature; 145 tokens, $0.001755 |
+| Prompt versions | [`evidence/09-prompt-versions.png`](evidence/09-prompt-versions.png) — v1 `production`+`baseline`, v2 `candidate`+`latest` · [`evidence/raw/09-prompt-versions.txt`](evidence/raw/09-prompt-versions.txt), [`evidence/raw/09-prompt-trace-ids.txt`](evidence/raw/09-prompt-trace-ids.txt) |
+| Prompt rollback | [`evidence/10-prompt-rollback-before.png`](evidence/10-prompt-rollback-before.png) (sau promote: `production` → v2) · [`evidence/10-prompt-rollback-after.png`](evidence/10-prompt-rollback-after.png) (sau rollback: `production` → v1) · [`evidence/raw/10-prompt-promote.txt`](evidence/raw/10-prompt-promote.txt), [`evidence/raw/10-prompt-rollback.txt`](evidence/raw/10-prompt-rollback.txt) |
 | Dashboard runtime | [`evidence/11-dashboard-overview.png`](evidence/11-dashboard-overview.png) (HTML gốc: [`evidence/11-dashboard.html`](evidence/11-dashboard.html)) |
 | Incident metric | [`evidence/12-incident-metric.png`](evidence/12-incident-metric.png) (dashboard) · [`evidence/12-incident-metric.txt`](evidence/12-incident-metric.txt) (so sánh trước/trong incident) |
 | Incident log | [`evidence/13-incident-log.txt`](evidence/13-incident-log.txt) · lệnh chạy: [`raw/20-challenge-run.txt`](evidence/raw/20-challenge-run.txt) |
-| Incident trace | [`evidence/14-incident-trace.txt`](evidence/14-incident-trace.txt) · ảnh waterfall: `evidence/14-incident-trace.png` **[CẦN BỔ SUNG ảnh Langfuse trace `086ce802f973e9cf2d8bb481f7f426d5`]** |
+| Incident trace | [`evidence/14-incident-trace.png`](evidence/14-incident-trace.png) — trace `086ce802f973e9cf2d8bb481f7f426d5`: root 2.65 s, **`retrieval` 2.50 s**, generation 0.15 s (TTFT 0.05 s, 145 tokens, $0.001755, prompt `day13-chat` v1) · so sánh với trace trước incident: [`evidence/14-incident-trace.txt`](evidence/14-incident-trace.txt) |
 | Practice (3 scenario) | [`raw/12-practice-*.txt`](evidence/raw/), [`raw/14-practice-traces.txt`](evidence/raw/14-practice-traces.txt) |
 
 Output baseline (trước khi sửa) nằm ở `evidence/raw/00-baseline-*.txt`.
@@ -235,9 +233,7 @@ python scripts/inject_incident.py --disable                  # Fix (10:12:39Z), 
   - SLO và error budget biến "hệ thống có ổn không" thành một con số dùng để quyết định dừng rollout hay không.
 - **Điều quan trọng nhất đã học:** observability phải được thiết kế để *nối* được các lớp với nhau (`correlation_id` ↔ `trace_id` ↔ `prompt_version`), chứ không chỉ để *thu thập*. Ngoài ra, một metric đo sai chỗ (latency trong agent, không tính thời gian xếp hàng) có thể che mất sự cố thật.
 - **Hạn chế hoặc phần chưa hoàn thành, nếu có:**
-  - Các ảnh chụp Langfuse UI (06–10, 14) phải tự chụp trong trình duyệt đã đăng nhập; hiện đã có số liệu tương ứng lấy qua API (`evidence/14-incident-trace.txt`, `evidence/raw/`).
   - Ảnh dashboard `11-dashboard-overview.png` được tạo từ log trước khi sửa lỗi ghi đồng thời, nên có thể thiếu vài dòng log bị hỏng. Log đó được giữ lại ở `data/logs.pre-lockfix.jsonl` (gitignore).
-  - Project Langfuse cần đổi tên thành `day13-k4-l3a-2A202602421`.
   - Dashboard là HTML sinh từ log, chưa phải công cụ realtime như Grafana; chế độ `--watch` build lại mỗi 30 giây.
   - `quality_score` vẫn là heuristic của starter.
 
