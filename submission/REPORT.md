@@ -8,7 +8,7 @@
 - **MSSV:** 2A202602421
 - **Lớp:** K4-L3A
 - **Repository URL:** https://github.com/kamitoznguyen-collab/K4-L3-DAY13-NguyenQuangHuy-2A202602421-Monitoring-LLMOps
-- **Commit SHA cuối:** `e53b27e5b5b06687533028edd1fe26e0f834ae61`
+- **Commit SHA cuối:** `9a48abaa3d603924a9fc5e222f4cb5ff82058dfe` (commit chứa toàn bộ code và evidence; commit sau đó chỉ cập nhật dòng này)
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4, seed 1311, 5 query, `latency_threshold_ms` 2000)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602421`
 
