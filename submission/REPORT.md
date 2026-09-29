@@ -8,8 +8,8 @@
 - **MSSV:** 2A202602421
 - **Lớp:** K4-L3A
 - **Repository URL:** https://github.com/kamitoznguyen-collab/K4-L3-DAY13-NguyenQuangHuy-2A202602421-Monitoring-LLMOps
-- **Commit SHA cuối:** `9a48abaa3d603924a9fc5e222f4cb5ff82058dfe` (commit chứa toàn bộ code và evidence; commit sau đó chỉ cập nhật dòng này)
-- **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4, seed 1311, 5 query, `latency_threshold_ms` 2000)
+- **Commit SHA cuối:** SHA nộp trên LMS là commit mới nhất của nhánh `main` (`git log -1 --format=%H`). Toàn bộ code và evidence nằm ở commit `9a48abaa3d603924a9fc5e222f4cb5ff82058dfe`; các commit sau đó chỉ chỉnh `submission/REPORT.md`.
+- **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4, `latency_threshold_ms` 2000)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602421`
 
 ## 2. Evidence index
@@ -150,8 +150,8 @@ python scripts/find_requests.py --slowest 5 --minutes 5      # Logs
 python scripts/inject_incident.py --disable                  # Fix (10:12:39Z), rồi chạy lại để xác nhận
 ```
 
-- **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1`. File gồm cohort K4, seed 1311, 5 query cùng feature `monitoring`, và `latency_threshold_ms = 2000`.
-- **Khoảng thời gian điều tra (UTC, 2026-09-29):**
+- **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1`. Cohort K4, workload thuộc feature `monitoring`, `latency_threshold_ms = 2000`.
+- **Khoảng thời gian điều tra (UTC, 2026-09-29):** *lưu ý: ảnh Langfuse (`08`, `14`) hiển thị giờ Việt Nam GMT+7, nên 10:11 UTC trong report tương ứng với 17:11 trên ảnh.*
   - Baseline cùng input: 10:10:19.
   - Incident: 10:11:25–10:11:29.
   - Fix và xác nhận hồi phục: 10:12:39.
@@ -232,6 +232,11 @@ python scripts/inject_incident.py --disable                  # Fix (10:12:39Z), 
   - Token và cost là chỉ số "lỗi thầm lặng": `cost_spike` không làm latency hay error thay đổi, chỉ lộ ra qua panel cost/tokens.
   - SLO và error budget biến "hệ thống có ổn không" thành một con số dùng để quyết định dừng rollout hay không.
 - **Điều quan trọng nhất đã học:** observability phải được thiết kế để *nối* được các lớp với nhau (`correlation_id` ↔ `trace_id` ↔ `prompt_version`), chứ không chỉ để *thu thập*. Ngoài ra, một metric đo sai chỗ (latency trong agent, không tính thời gian xếp hàng) có thể che mất sự cố thật.
+- **Bonus — automation:** ngoài phần bắt buộc, tôi viết thêm các script tự động hoá quy trình Metrics → Logs → Traces:
+  - [`scripts/build_dashboard.py`](../scripts/build_dashboard.py) dựng dashboard 6 panel từ `data/logs.jsonl` theo contract (`--watch` tự build lại mỗi 30 giây), có test [`tests/test_build_dashboard.py`](../tests/test_build_dashboard.py).
+  - [`scripts/find_requests.py`](../scripts/find_requests.py) (`--slowest`, `--failed`, `--costliest`, `--id`) lấy `correlation_id` và `trace_id` của request bất thường chỉ bằng một lệnh.
+  - [`scripts/prompt_versions.py`](../scripts/prompt_versions.py) (`setup`, `status`, `promote`, `rollback`) tạo prompt v1/v2 và chuyển label `production` trên Langfuse.
+  - [`scripts/log_query.py`](../scripts/log_query.py) là thư viện đọc và lọc log dùng chung cho hai script đầu.
 - **Hạn chế hoặc phần chưa hoàn thành, nếu có:**
   - Ảnh dashboard `11-dashboard-overview.png` được tạo từ log trước khi sửa lỗi ghi đồng thời, nên có thể thiếu vài dòng log bị hỏng. Log đó được giữ lại ở `data/logs.pre-lockfix.jsonl` (gitignore).
   - Dashboard là HTML sinh từ log, chưa phải công cụ realtime như Grafana; chế độ `--watch` build lại mỗi 30 giây.
@@ -239,10 +244,10 @@ python scripts/inject_incident.py --disable                  # Fix (10:12:39Z), 
 
 ## 9. Checklist trước khi nộp
 
-- [ ] Kết quả và evidence thuộc commit SHA cuối.
-- [ ] Tất cả ảnh/output mở được bằng đường dẫn tương đối.
-- [ ] Incident evidence nối đúng metric → log → trace.
-- [ ] Trace/prompt evidence thuộc project Langfuse cá nhân và ảnh không lộ key/secret.
-- [ ] Repository chạy lại được theo README.
-- [ ] Không có secret, API key, PII thô hoặc evidence của người khác/lớp khác.
-- [ ] URL repo và commit SHA cuối đã được nộp trên LMS/Codelabs.
+- [x] Kết quả và evidence thuộc commit SHA cuối.
+- [x] Tất cả ảnh/output mở được bằng đường dẫn tương đối.
+- [x] Incident evidence nối đúng metric → log → trace.
+- [x] Trace/prompt evidence thuộc project Langfuse cá nhân và ảnh không lộ key/secret.
+- [x] Repository chạy lại được theo README.
+- [x] Không có secret, API key, PII thô hoặc evidence của người khác/lớp khác.
+- [ ] URL repo và commit SHA cuối đã được nộp trên LMS/Codelabs *(làm sau khi push commit này)*.
